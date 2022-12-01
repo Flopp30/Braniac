@@ -9,7 +9,7 @@ class MyCustomManager(models.Manager):
 
 
 class BaseModel(models.Model):
-    objects = MyCustomManager()
+    # objects = MyCustomManager()
     created = models.DateTimeField(auto_now_add=True, verbose_name="Создан", editable=False)
     updated = models.DateTimeField(auto_now=True, verbose_name="Обновлен", editable=False)
 

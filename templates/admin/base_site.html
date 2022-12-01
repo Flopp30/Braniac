@@ -6,10 +6,13 @@
             <img src="{% static "img/logo.png" %}">
         </a>
     </h1>
+    <a href="{% url 'mainapp:main_page' %}">
+        Вернуться на главную сайта
+    </a>
 {% endblock %}
 
 
 {% block welcome-msg %}
-    Это не совсем базовый шаблон джанги :)
+
     {{ block.super }}
 {% endblock %}
