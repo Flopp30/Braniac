@@ -3,7 +3,13 @@ from django.db import models
 NULLABLE = {'blank': True, 'null': True}
 
 
+class MyCustomManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted=False)
+
+
 class BaseModel(models.Model):
+    objects = MyCustomManager()
     created = models.DateTimeField(auto_now_add=True, verbose_name="Created", editable=False)
     updated = models.DateTimeField(auto_now=True, verbose_name="Edited", editable=False)
 
@@ -29,15 +35,12 @@ class News(BaseModel):
     def __str__(self):
         return f'{self.pk} {self.title}'
 
-
-class CoursesManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(deleted=False)
+    class Meta:
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
 
 
 class Courses(BaseModel):
-    objects = CoursesManager()
-
     name = models.CharField(max_length=256, verbose_name="Name")
 
     description = models.TextField(verbose_name="Description", blank=True, null=True)
@@ -48,6 +51,10 @@ class Courses(BaseModel):
 
     def __str__(self) -> str:
         return f"{self.pk} {self.name}"
+
+    class Meta:
+        verbose_name = 'Курс'
+        verbose_name_plural = 'Курсы'
 
 
 class Lesson(BaseModel):
@@ -63,6 +70,8 @@ class Lesson(BaseModel):
 
     class Meta:
         ordering = ("course", "num")
+        verbose_name = 'Урок'
+        verbose_name_plural = 'Уроки'
 
 
 class CourseTeachers(models.Model):
@@ -80,3 +89,7 @@ class CourseTeachers(models.Model):
     def delete(self, *args):
         self.deleted = True
         self.save()
+
+    class Meta:
+        verbose_name = 'Учитель'
+        verbose_name_plural = 'Учителя'
