@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "markdownify.apps.MarkdownifyConfig",
 
     'social_django',
 
@@ -71,8 +72,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "Braniac.wsgi.application"
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

@@ -10,10 +10,10 @@ class MyCustomManager(models.Manager):
 
 class BaseModel(models.Model):
     objects = MyCustomManager()
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Created", editable=False)
-    updated = models.DateTimeField(auto_now=True, verbose_name="Edited", editable=False)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Создан", editable=False)
+    updated = models.DateTimeField(auto_now=True, verbose_name="Обновлен", editable=False)
 
-    deleted = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False, verbose_name='Удален')
 
     def delete(self, *args):
         self.deleted = True
@@ -24,10 +24,10 @@ class BaseModel(models.Model):
 
 
 class News(BaseModel):
-    title = models.CharField(max_length=128, verbose_name='Title')
-    preambule = models.CharField(max_length=1024, verbose_name='Preambule')
+    title = models.CharField(max_length=128, verbose_name='Заголовок')
+    preambule = models.CharField(max_length=1024, verbose_name='Короткое описание')
 
-    body = models.TextField(**NULLABLE, verbose_name='Body')
+    body = models.TextField(**NULLABLE, verbose_name='Тело новости')
     body_as_markdown = models.BooleanField(
         default=False, verbose_name='As markdown'
     )
@@ -41,13 +41,13 @@ class News(BaseModel):
 
 
 class Courses(BaseModel):
-    name = models.CharField(max_length=256, verbose_name="Name")
+    name = models.CharField(max_length=256, verbose_name="Имя")
 
-    description = models.TextField(verbose_name="Description", blank=True, null=True)
+    description = models.TextField(verbose_name="Описание", blank=True, null=True)
     description_as_markdown = models.BooleanField(verbose_name="As markdown", default=False)
 
-    cost = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="Cost", default=0)
-    cover = models.CharField(max_length=25, default="no_image.svg", verbose_name="Cover")
+    cost = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="Цена", default=0)
+    cover = models.CharField(max_length=25, default="no_image.svg", verbose_name="Лого")
 
     def __str__(self) -> str:
         return f"{self.pk} {self.name}"
@@ -58,11 +58,11 @@ class Courses(BaseModel):
 
 
 class Lesson(BaseModel):
-    course = models.ForeignKey(Courses, on_delete=models.CASCADE)
-    num = models.PositiveIntegerField(verbose_name="Lesson number")
+    course = models.ForeignKey(Courses, on_delete=models.CASCADE, verbose_name='Название курса')
+    num = models.PositiveIntegerField(verbose_name="Номер урока")
 
-    title = models.CharField(max_length=256, verbose_name="Name")
-    description = models.TextField(verbose_name="Description", blank=True, null=True)
+    title = models.CharField(max_length=256, verbose_name="Имя")
+    description = models.TextField(verbose_name="Описание", blank=True, null=True)
     description_as_markdown = models.BooleanField(verbose_name="As markdown", default=False)
 
     def __str__(self) -> str:
@@ -77,11 +77,11 @@ class Lesson(BaseModel):
 class CourseTeachers(models.Model):
     course = models.ManyToManyField(Courses)
 
-    name_first = models.CharField(max_length=128, verbose_name="Name")
-    name_second = models.CharField(max_length=128, verbose_name="Surname")
+    name_first = models.CharField(max_length=128, verbose_name="Имя")
+    name_second = models.CharField(max_length=128, verbose_name="Фамилия")
 
-    day_birth = models.DateField(verbose_name="Birth date")
-    deleted = models.BooleanField(default=False)
+    day_birth = models.DateField(verbose_name="Дата рождения")
+    deleted = models.BooleanField(default=False, verbose_name='Удален')
 
     def __str__(self) -> str:
         return "{0:0>3} {1} {2}".format(self.pk, self.name_second, self.name_first)
@@ -91,5 +91,5 @@ class CourseTeachers(models.Model):
         self.save()
 
     class Meta:
-        verbose_name = 'Учитель'
-        verbose_name_plural = 'Учителя'
+        verbose_name = 'Преподаватель'
+        verbose_name_plural = 'Преподаватели'
