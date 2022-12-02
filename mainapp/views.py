@@ -1,9 +1,12 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DetailView, DeleteView
-from mainapp.models import News
+from mainapp.models import News, Courses, CourseFeedback
 from mainapp import models as mainapp_models
+from mainapp.forms import CourseFeedBackForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 
 class MainPageView(TemplateView):
@@ -13,15 +16,12 @@ class MainPageView(TemplateView):
 class NewsPageView(ListView):
     model = News
     template_name = "mainapp/news_list.html"
-    paginate_by = 5
+    paginate_by = 2
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            return super().get_queryset()
         return super().get_queryset().filter(deleted=False)
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context['news_qs'] = mainapp_models.News.objects.all()[:5]
-        return context
 
 
 class NewsDetailView(DetailView):
@@ -48,13 +48,9 @@ class NewsDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = ('mainapp.delete_news',)
 
 
-class CoursesListView(TemplateView):
-    template_name = "mainapp/courses_list.html"
-
-    def get_context_data(self, **kwargs):
-        context = super(CoursesListView, self).get_context_data(**kwargs)
-        context["objects"] = mainapp_models.Courses.objects.all()[:7]
-        return context
+class CoursesListView(ListView):
+    model = Courses
+    paginate_by = 5
 
 
 class CoursesDetailView(TemplateView):
@@ -65,7 +61,27 @@ class CoursesDetailView(TemplateView):
         context["course_object"] = get_object_or_404(mainapp_models.Courses, pk=pk)
         context["lessons"] = mainapp_models.Lesson.objects.filter(course=context["course_object"])
         context["teachers"] = mainapp_models.CourseTeachers.objects.filter(course=context["course_object"])
+        context["feedback_list"] = mainapp_models.CourseFeedback.objects.filter(course=context["course_object"],
+                                                                                deleted=False)
+
+        if self.request.user.is_authenticated:
+            # context['feedback_form'] = CourseFeedBackForm()
+            context['feedback_form'] = CourseFeedBackForm(
+                course=context["course_object"],
+                user=self.request.user,
+            )
+
         return context
+
+
+class CourseFeedbackCreateView(CreateView):
+    model = CourseFeedback
+    form_class = CourseFeedBackForm
+
+    def form_valid(self, form):
+        self.object = form.save()
+        rendered_template = render_to_string('mainapp/includes/feedback_card.html', context={'item': self.object})
+        return JsonResponse({'card': rendered_template})
 
 
 class ContactsPageView(TemplateView):
