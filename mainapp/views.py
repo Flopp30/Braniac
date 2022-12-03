@@ -63,13 +63,10 @@ class CoursesDetailView(TemplateView):
         context["teachers"] = mainapp_models.CourseTeachers.objects.filter(course=context["course_object"])
         context["feedback_list"] = mainapp_models.CourseFeedback.objects.filter(course=context["course_object"],
                                                                                 deleted=False)
-        is_commented = mainapp_models.CourseFeedback.objects.filter(
-            course=context["course_object"],
-            user=self.request.user,
-            deleted=False
-        ) != mainapp_models.CourseFeedback.objects.none()
-
-        if self.request.user.is_authenticated and (not is_commented):
+        is_commented = mainapp_models.CourseFeedback.objects.filter(course=context["course_object"],
+                                                                    user=self.request.user,
+                                                                    deleted=False).first()
+        if self.request.user.is_authenticated and not is_commented:
             context['feedback_form'] = CourseFeedBackForm(
                 course=context["course_object"],
                 user=self.request.user,
