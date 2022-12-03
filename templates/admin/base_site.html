@@ -1,0 +1,18 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block branding %}
+    <h1 id="branding">
+        <a href="{% url 'admin:index' %}">
+            <img src="{% static "img/logo.png" %}">
+        </a>
+    </h1>
+    <a href="{% url 'mainapp:main_page' %}">
+        Вернуться на главную сайта
+    </a>
+{% endblock %}
+
+
+{% block welcome-msg %}
+
+    {{ block.super }}
+{% endblock %}

@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "markdownify.apps.MarkdownifyConfig",
+    'crispy_forms',
 
     'social_django',
 
@@ -54,7 +56,7 @@ ROOT_URLCONF = "Braniac.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": []
+        "DIRS": ['templates']
         ,
         "APP_DIRS": True,
         "OPTIONS": {
@@ -71,8 +73,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "Braniac.wsgi.application"
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -154,3 +154,5 @@ SOCIAL_AUTH_VK_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_VK_OAUTH2_SECRET')
 
 SOCIAL_AUTH_GITHUB_KEY = os.getenv('SOCIAL_AUTH_GITHUB_KEY')
 SOCIAL_AUTH_GITHUB_SECRET = os.getenv('SOCIAL_AUTH_GITHUB_SECRET')
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
