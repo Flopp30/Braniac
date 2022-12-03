@@ -15,7 +15,7 @@ class NewsAdmin(admin.ModelAdmin):
     def link_(self, obj):
         return format_html(
             '<a href="{}" target="_blank">{}</a>',
-            f'/news/{obj.pk}',
+            f'/news/{obj.pk}/detail/',
             obj.preambule,
         )
 
