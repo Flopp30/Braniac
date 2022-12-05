@@ -21,4 +21,8 @@ urlpatterns = [
     path("news/<int:pk>/delete/", views.NewsDeleteView.as_view(), name="news_delete"),
     path("news/<int:pk>/detail/", views.NewsDetailView.as_view(), name="news_detail"),
 
+    # Logs
+    path("logs/", views.LogView.as_view(), name="log_list"),
+    path("logs/download/", views.LogDownloadView.as_view(), name="log_download"),
+
 ]

@@ -1,12 +1,14 @@
+from django.conf import settings
 from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DetailView, DeleteView
+from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DetailView, DeleteView, View
 from mainapp.models import News, Courses, CourseFeedback
 from mainapp import models as mainapp_models
 from mainapp.forms import CourseFeedBackForm
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.http import JsonResponse
+from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
+from django.http import JsonResponse, FileResponse
 from django.template.loader import render_to_string
+from django.conf import settings
 
 
 class MainPageView(TemplateView):
@@ -95,3 +97,30 @@ class DocSitePageView(TemplateView):
 
 class LoginPageView(TemplateView):
     template_name = "authapp/login.html"
+
+
+class LogView(UserPassesTestMixin, TemplateView):
+    template_name = 'mainapp/logs.html'
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        log_lines = []
+        with open(settings.BASE_DIR / 'log/main_log.log') as log_file:
+            for i, line in enumerate(log_file):
+                if i == 1000:
+                    break
+                log_lines.insert(0, line)
+
+            context_data['logs'] = log_lines
+        return context_data
+
+
+class LogDownloadView(UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get(self, *args, **kwargs):
+        return FileResponse(open(settings.LOG_FILE, 'rb'))
