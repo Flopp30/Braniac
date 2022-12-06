@@ -1,14 +1,16 @@
-from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DetailView, DeleteView, View
+
+from mainapp import tasks
 from mainapp.models import News, Courses, CourseFeedback
 from mainapp import models as mainapp_models
 from mainapp.forms import CourseFeedBackForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
-from django.http import JsonResponse, FileResponse
+from django.http import JsonResponse, FileResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.conf import settings
+from django.core.cache import cache
 
 
 class MainPageView(TemplateView):
@@ -63,8 +65,17 @@ class CoursesDetailView(TemplateView):
         context["course_object"] = get_object_or_404(mainapp_models.Courses, pk=pk)
         context["lessons"] = mainapp_models.Lesson.objects.filter(course=context["course_object"])
         context["teachers"] = mainapp_models.CourseTeachers.objects.filter(course=context["course_object"])
-        context["feedback_list"] = mainapp_models.CourseFeedback.objects.filter(course=context["course_object"],
-                                                                                deleted=False)
+
+        feedback_list_key = f'course_feedback_{context["course_object"].pk}'
+        cached_feedback_list = cache.get(feedback_list_key)
+
+        if cached_feedback_list is None:
+            context["feedback_list"] = mainapp_models.CourseFeedback.objects.filter(course=context["course_object"],
+                                                                                    deleted=False)
+            cache.set(feedback_list_key, context["feedback_list"], timeout=300)
+        else:
+            context["feedback_list"] = cached_feedback_list
+
         is_commented = mainapp_models.CourseFeedback.objects.filter(course=context["course_object"],
                                                                     user=self.request.user,
                                                                     deleted=False).first()
@@ -89,6 +100,14 @@ class CourseFeedbackCreateView(CreateView):
 
 class ContactsPageView(TemplateView):
     template_name = "mainapp/contacts.html"
+
+    def post(self, *args, **kwargs):
+        # delay делает задачу отложенной (чтобы она попадала в общую очередь задач)
+        message_from = self.request.POST.get('message_from')
+        message_body = self.request.POST.get('message_body')
+        tasks.send_feedback_to_email.delay(message_from, message_body)
+
+        return HttpResponseRedirect(reverse_lazy('mainapp:contacts'))
 
 
 class DocSitePageView(TemplateView):
