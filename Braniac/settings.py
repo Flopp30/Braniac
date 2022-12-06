@@ -184,7 +184,7 @@ CASHES = {
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': 'redis://127.0.0.1:6379',
         'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultCl ient'
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient'
         }
     }
 }
@@ -192,15 +192,18 @@ CASHES = {
 # Celery config (url ссылка на редиce и место, куда складывать результат выполнения задач)
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
-
 # Конфиги для рассылки
 
 if os.getenv('ENV_TYPE') != 'local':
-    EMAIL_HOST = ''  # smtp.yandex.ru
-    EMAIL_PORT = 25  # 465
-    EMAIL_HOST_USER = ''  # myname@yandex.ru
-    EMAIL_HOST_PASSWORD = ''  # mypassword
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = False
     EMAIL_USE_SSL = True
+    EMAIL_HOST = 'smtp.yandex.ru'
+    EMAIL_PORT = 465
+    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER_YANDEX')
+    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD_YANDEX')
+    SERVER_EMAIL = EMAIL_HOST_USER
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
     EMAIL_FILE_PATH = 'emails_tmp'
@@ -210,6 +213,7 @@ else:
 LOG_FILE = BASE_DIR / 'log' / 'main_log.log'
 
 # Настройка логгирования
+
 # TODO: Почитать про sentry
 LOGGING = {
     'version': 1,

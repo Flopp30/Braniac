@@ -14,11 +14,10 @@ def send_feedback_to_email(message_from: str, message_body: str) -> None:
     :return:
     '''
     user_from = User.objects.filter(email=message_from).first().get_full_name()
-
     send_mail(
         subject=f'Feedback from: {user_from}, {message_from}',  # Тема
         message=message_body,  # Тело обращения
-        recipient_list=['support@braniac.local'],  # Список получателей
+        recipient_list=['pospeev.artem@icloud.com', ],  # Список получателей
         from_email=settings.EMAIL_HOST_USER,  # От кого
         fail_silently=False,  # Уведомлять об ошибках. По умолчанию True - не уведомлять
     )

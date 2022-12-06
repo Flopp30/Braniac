@@ -14,5 +14,5 @@ urlpatterns = [
 if settings.DEBUG:
     import debug_toolbar
 
-    urlpatterns.append(path('__debug__/', include(debug_toolbar.urls)))
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns.append(path('__debug__/', include(debug_toolbar.urls)))  # Подключение debug toolbar'a
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # Добавления MEDIA_URL'a
