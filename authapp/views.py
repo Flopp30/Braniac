@@ -1,7 +1,5 @@
-from django.contrib import messages
-from django.http import HttpResponseRedirect
-from django.urls import reverse, reverse_lazy
-from django.views.generic import TemplateView, CreateView, UpdateView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, UpdateView
 
 from authapp.forms import CustomUserCreationForm, CustomUserChangeForm
 from authapp.models import User

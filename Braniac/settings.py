@@ -20,7 +20,7 @@ load_dotenv(dotenv_path=dot_env)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (os.getenv('DEBUG', 'False') == 'True')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -32,8 +32,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "markdownify.apps.MarkdownifyConfig",
-    'crispy_forms',
 
+    'crispy_forms',
+    'debug_toolbar',
     'social_django',
 
     "mainapp",
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = "Braniac.urls"
@@ -108,6 +110,8 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+# Параметры развертывания на сервере / локальные параметры для БД и пути до статики
+
 if os.getenv('ENV_TYPE') != 'local':
     STATIC_ROOT = BASE_DIR / 'static'
     DATABASES = {
@@ -129,30 +133,106 @@ else:
         }
     }
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
+    INTERNAL_IPS = [
+        '127.0.0.1'
+    ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Путь до медиа файлов
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Модель пользователей при сохранении (переопределение стандартной модели из django)
+
 AUTH_USER_MODEL = 'authapp.User'
+
+# Редиректы после входа/выхода с аккаунта
+
 LOGIN_REDIRECT_URL = 'mainapp:main_page'
 LOGOUT_REDIRECT_URL = 'mainapp:main_page'
 
+# Хранение сообщений уведомлений
+
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
+# Подключение стороннего модуля аутентификации
+
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.github.GithubOAuth2',
     'social_core.backends.vk.VKOAuth2',
 )
+
+# Ключи авторизации ВК
 
 SOCIAL_AUTH_VK_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_VK_OAUTH2_KEY')
 SOCIAL_AUTH_VK_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_VK_OAUTH2_SECRET')
 
+# Ключи авторизации GitHub
+
 SOCIAL_AUTH_GITHUB_KEY = os.getenv('SOCIAL_AUTH_GITHUB_KEY')
 SOCIAL_AUTH_GITHUB_SECRET = os.getenv('SOCIAL_AUTH_GITHUB_SECRET')
 
+# Пак шаблонов для crispy
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Определение
+CASHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient'
+        }
+    }
+}
+
+# Celery config (url ссылка на редиce и место, куда складывать результат выполнения задач)
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+# Конфиги для рассылки
+
+if os.getenv('ENV_TYPE') != 'local':
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = False
+    EMAIL_USE_SSL = True
+    EMAIL_HOST = 'smtp.yandex.ru'
+    EMAIL_PORT = 465
+    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER_YANDEX')
+    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD_YANDEX')
+    SERVER_EMAIL = EMAIL_HOST_USER
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+    EMAIL_FILE_PATH = 'emails_tmp'
+    EMAIL_HOST_USER = 'support@branac.local'
+
+# Путь до лог файла
+LOG_FILE = BASE_DIR / 'log' / 'main_log.log'
+
+# Настройка логгирования
+
+# TODO: Почитать про sentry
+LOGGING = {
+    'version': 1,
+    'disable_exciting_loggers': False,  # Отключить сторонние логгеры
+    'formatters': {  # Формат логов. Название + формат
+        'console': {
+            'format': '[%(asctime)s] %(levelname)s %(name)s (%(lineno)d) %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',  # Максимальный уровень логов. Все, что отсюда и ниже до error
+            'class': 'logging.FileHandler',
+            'filename': LOG_FILE,
+            'formatter': 'console'
+        },
+        'console': {'class': 'logging.StreamHandler', 'formatter': 'console'},
+    },
+    'loggers': {
+        'django': {'level': 'INFO', 'handlers': ['file', 'console']}
+    }
+}

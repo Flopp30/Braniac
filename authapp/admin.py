@@ -29,6 +29,6 @@ class UserAdmin(admin.ModelAdmin):
     mark_as_superuser.short_description = 'Сделать суперпользователем'
 
     def mark_as_user(self, request, queryset):
-        queryset.update(is_superuser=True)
+        queryset.update(is_superuser=False)
 
     mark_as_user.short_description = 'Сделать обычным пользователем'
