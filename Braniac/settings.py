@@ -236,3 +236,6 @@ LOGGING = {
         'django': {'level': 'INFO', 'handlers': ['file', 'console']}
     }
 }
+
+# Путь до файла интернационализации
+LOCALE_PATHS = (BASE_DIR / 'locale',)

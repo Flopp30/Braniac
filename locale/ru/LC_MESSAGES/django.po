@@ -1,0 +1,164 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-12-08 20:50+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+#: authapp/models.py:10
+msgid "Email"
+msgstr ""
+
+#: authapp/models.py:11
+msgid "age"
+msgstr ""
+
+#: authapp/models.py:12
+msgid "avatar"
+msgstr ""
+
+#: authapp/models.py:15
+msgid "user"
+msgstr ""
+
+#: authapp/models.py:16
+msgid "users"
+msgstr ""
+
+#: authapp/templates/authapp/edit.html:10
+msgid "save"
+msgstr ""
+
+#: mainapp/models.py:15
+msgid "created"
+msgstr ""
+
+#: mainapp/models.py:16
+msgid "updated"
+msgstr ""
+
+#: mainapp/models.py:18
+msgid "deleted"
+msgstr ""
+
+#: mainapp/models.py:29
+msgid "header"
+msgstr ""
+
+#: mainapp/models.py:30
+msgid "short description"
+msgstr ""
+
+#: mainapp/models.py:32
+msgid "body"
+msgstr ""
+
+#: mainapp/models.py:34 mainapp/models.py:49 mainapp/models.py:68
+msgid "As markdown"
+msgstr ""
+
+#: mainapp/models.py:41 mainapp/models.py:42
+msgid "News"
+msgstr ""
+
+#: mainapp/models.py:46 mainapp/models.py:66
+msgid "name"
+msgstr ""
+
+#: mainapp/models.py:48
+msgid "Description"
+msgstr ""
+
+#: mainapp/models.py:51
+msgid "price"
+msgstr ""
+
+#: mainapp/models.py:52
+msgid "logo"
+msgstr ""
+
+#: mainapp/models.py:58
+msgid "course"
+msgstr ""
+
+#: mainapp/models.py:59
+msgid "courses"
+msgstr ""
+
+#: mainapp/models.py:63
+msgid "Course name"
+msgstr ""
+
+#: mainapp/models.py:64
+msgid "lesson number"
+msgstr ""
+
+#: mainapp/models.py:67
+msgid "description"
+msgstr ""
+
+#: mainapp/models.py:75
+msgid "lesson"
+msgstr ""
+
+#: mainapp/models.py:76
+msgid "lessons"
+msgstr ""
+
+#: mainapp/models.py:82
+msgid "first name"
+msgstr ""
+
+#: mainapp/models.py:83
+msgid "last name"
+msgstr ""
+
+#: mainapp/models.py:85
+msgid "date birth"
+msgstr ""
+
+#: mainapp/models.py:86
+msgid "Deleted"
+msgstr ""
+
+#: mainapp/models.py:96
+msgid "teacher"
+msgstr ""
+
+#: mainapp/models.py:97
+msgid "teachers"
+msgstr ""
+
+#: mainapp/models.py:109
+msgid "Course"
+msgstr ""
+
+#: mainapp/models.py:110
+msgid "User"
+msgstr ""
+
+#: mainapp/models.py:111
+msgid "rating"
+msgstr ""
+
+#: mainapp/models.py:112 mainapp/models.py:115
+msgid "feedback"
+msgstr ""
+
+#: mainapp/models.py:116
+msgid "feedbacks"
+msgstr ""
