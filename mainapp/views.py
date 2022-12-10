@@ -20,7 +20,8 @@ class MainPageView(TemplateView):
 class NewsPageView(ListView):
     model = News
     template_name = "mainapp/news_list.html"
-    paginate_by = 2
+    paginate_by = 5
+    ordering = '-id'
 
     def get_queryset(self):
         if self.request.user.is_superuser:
@@ -52,9 +53,14 @@ class NewsDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = ('mainapp.delete_news',)
 
 
+class LoginPageView(TemplateView):
+    template_name = "authapp/login.html"
+
+
 class CoursesListView(ListView):
     model = Courses
     paginate_by = 5
+    ordering = ['-pk']
 
 
 class CoursesDetailView(TemplateView):
@@ -76,14 +82,15 @@ class CoursesDetailView(TemplateView):
         else:
             context["feedback_list"] = cached_feedback_list
 
-        is_commented = mainapp_models.CourseFeedback.objects.filter(course=context["course_object"],
-                                                                    user=self.request.user,
-                                                                    deleted=False).first()
-        if self.request.user.is_authenticated and not is_commented:
-            context['feedback_form'] = CourseFeedBackForm(
-                course=context["course_object"],
-                user=self.request.user,
-            )
+        if self.request.user.is_authenticated:
+            is_commented = mainapp_models.CourseFeedback.objects.filter(course=context["course_object"],
+                                                                        user=self.request.user,
+                                                                        deleted=False).first()
+            if not is_commented:
+                context['feedback_form'] = CourseFeedBackForm(
+                    course=context["course_object"],
+                    user=self.request.user,
+                )
 
         return context
 
@@ -112,7 +119,6 @@ class ContactsPageView(TemplateView):
 
 class DocSitePageView(TemplateView):
     template_name = "mainapp/doc_site.html"
-
 
 
 class LogView(UserPassesTestMixin, TemplateView):
