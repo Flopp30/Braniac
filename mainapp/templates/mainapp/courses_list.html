@@ -1,8 +1,8 @@
 {% extends 'mainapp/base.html' %}
-{% load static %}
+{% load static i18n %}
 
 {% block title %}
-    Курсы
+    {% translate 'Courses' %}
 {% endblock title %}
 
 {% block content %}
@@ -22,29 +22,7 @@
         {% endfor %}
 
     </div>
-    <div class="row justify-content-center align-items-center mt-3 mb-n3">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                {% if page_obj.has_previous %}
-                    <li class="page-item "><a class="page-link"
-                                              href="?page=1">Первая</a></li>
-                    <li class="page-item"><a class="page-link"
-                                             href="?page={{ page_obj.previous_page_number }}"><</a></li>
-                {% endif %}
-                {% for i in page_obj.paginator.page_range %}
-                    <li class="page-item {% if i == page_obj.number %}active{% endif %}">
-                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-                    </li>
-                {% endfor %}
-                {% if page_obj.has_next %}
-                    <li class="page-item"><a class="page-link"
-                                             href="?page={{ page_obj.next_page_number }}">></a></li>
-                    <li class="page-item"><a class="page-link"
-                                             href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-    </div>
+    {% include 'mainapp/includes/inc_paginator.html' %}
+
 
 {% endblock content %}

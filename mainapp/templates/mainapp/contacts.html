@@ -1,22 +1,20 @@
 {% extends 'mainapp/base.html' %}
-{% load email_to_link %}
-{% load static %}
-
+{% load email_to_link i18n static %}
 {% block content %}
     <div class="container-md">
         <p>
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
-                <h1 class="display-4">Наши контакты</h1>
-                <p class="lead">Обязательно свяжитесь с нами! Ваш комфорт - наша забота.</p>
+                <h1 class="display-4">{% translate 'Our contacts' %}</h1>
+                <p class="lead">{% translate 'Be sure to contact us! Your comfort is our concern.' %}</p>
                 <div class="row">
                     <form method="POST" class="form-group col-4">
                         {% csrf_token %}
                         {% if user.is_authenticated %}
                             <input class="form-control" name="message_from" placeholder="Email" value="{{ user.email }}"/>
                         {% endif %}
-                        <textarea class="form-control" name="message_body" placeholder="Текст обращения"></textarea>
-                        <input type="submit" class="btn btn-primary" value="Отправить "/>
+                        <textarea class="form-control" name="message_body" placeholder="{% translate 'Text body' %}"></textarea>
+                        <input type="submit" class="btn btn-primary" value="{% translate 'Send' %} "/>
                     </form>
                 </div>
             </div>
@@ -42,10 +40,10 @@
                                     frameborder="0" allowfullscreen="true"
                                     style="position:relative; border-radius: 4px;"></iframe>
                         </div>
-                        <h5 class="card-title">Санкт‑Петербург</h5>
+                        <h5 class="card-title">{% translate 'Saint-Petersburg' %}</h5>
                         <p class="card-text">
                         <ul class="list-unstyled">
-                            <li>Телефон</li>
+                            <li>{% translate 'Phone' %}</li>
                             <li><strong>+7-999-11-11111</strong></li>
                         </ul>
                         <ul class="list-unstyled">
@@ -53,8 +51,8 @@
                             <li><strong>{{ 'mysite@spb.ru'|email_to_link }}</strong></li>
                         </ul>
                         <ul class="list-unstyled">
-                            <li>Адрес</li>
-                            <li><strong>территория Петропавловская крепость, 3Ж</strong></li>
+                            <li>{% translate 'Address' %}</li>
+                            <li><strong>{% translate 'territory of the Peter and Paul Fortress, 3ZH' %}</strong></li>
                         </ul>
                         </p>
                     </div>
@@ -76,10 +74,10 @@
                                     frameborder="0" allowfullscreen="true"
                                     style="position:relative; border-radius: 4px;"></iframe>
                         </div>
-                        <h5 class="card-title">Казань</h5>
+                        <h5 class="card-title">{% translate 'Kazan' %}</h5>
                         <p class="card-text">
                         <ul class="list-unstyled">
-                            <li>Телефон</li>
+                            <li>{% translate 'Phone' %}</li>
                             <li><strong>+7-999-22-22222</strong></li>
                         </ul>
                         <ul class="list-unstyled">
@@ -87,8 +85,8 @@
                             <li><strong>{{ 'mysite@kz.ru'|email_to_link }}</strong></li>
                         </ul>
                         <ul class="list-unstyled">
-                            <li>Адрес</li>
-                            <li><strong>территория Кремль, 11, Казань, Республика Татарстан, Россия</strong></li>
+                            <li>{% translate 'Address' %}</li>
+                            <li><strong>{% translate 'territory Kremlin, 11, Kazan, Republic of Tatarstan, Russia' %}</strong></li>
                         </ul>
                         </p>
                     </div>
@@ -108,10 +106,10 @@
                                     frameborder="0" allowfullscreen="true"
                                     style="position:relative; border-radius: 4px;"></iframe>
                         </div>
-                        <h5 class="card-title">Москва</h5>
+                        <h5 class="card-title">{% translate 'Moscow' %}</h5>
                         <p class="card-text">
                         <ul class="list-unstyled">
-                            <li>Телефон</li>
+                            <li>{% translate 'Phone' %}</li>
                             <li><strong>+7-999-33-33333</strong></li>
                         </ul>
                         <ul class="list-unstyled">
@@ -119,8 +117,8 @@
                             <li><strong>{{ 'mysite@msk.ru'|email_to_link }}</strong></li>
                         </ul>
                         <ul class="list-unstyled">
-                            <li>Адрес</li>
-                            <li><strong>Красная площадь, 7, Москва, Россия</strong></li>
+                            <li>{% translate 'Address' %}</li>
+                            <li><strong>{% translate '7 Red Square, Moscow, Russia' %}</strong></li>
                         </ul>
                         </p>
                     </div>

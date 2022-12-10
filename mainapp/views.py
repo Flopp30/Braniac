@@ -1,16 +1,16 @@
+from django.conf import settings
+from django.core.cache import cache
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DetailView, DeleteView, View
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
+from django.http import JsonResponse, FileResponse, HttpResponseRedirect
+from django.template.loader import render_to_string
 
 from mainapp import tasks
 from mainapp.models import News, Courses, CourseFeedback
 from mainapp import models as mainapp_models
 from mainapp.forms import CourseFeedBackForm
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
-from django.http import JsonResponse, FileResponse, HttpResponseRedirect
-from django.template.loader import render_to_string
-from django.conf import settings
-from django.core.cache import cache
 
 
 class MainPageView(TemplateView):
@@ -113,9 +113,6 @@ class ContactsPageView(TemplateView):
 class DocSitePageView(TemplateView):
     template_name = "mainapp/doc_site.html"
 
-
-class LoginPageView(TemplateView):
-    template_name = "authapp/login.html"
 
 
 class LogView(UserPassesTestMixin, TemplateView):

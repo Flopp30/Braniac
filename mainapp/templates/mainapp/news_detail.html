@@ -1,7 +1,7 @@
 {% extends 'mainapp/base.html' %}
-
+{% load i18n %}
 {% block title %}
-    {{ object.title|default:"Новости" }}
+    {% translate 'News' %}
 {% endblock title %}
 
 {% block content %}
@@ -13,7 +13,7 @@
                     <p class="card-text">
                         {{ object.body }}
                     </p>
-                    <a href="{% url 'mainapp:news' %}" class="btn btn-primary">Назад</a>
+                    <a href="{% url 'mainapp:news' %}" class="btn btn-primary">{% translate 'Back' %}</a>
                 </div>
             </div>
         </div>

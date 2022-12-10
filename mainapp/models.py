@@ -109,7 +109,7 @@ class CourseFeedback(BaseModel):
     course = models.ForeignKey(Courses, on_delete=models.CASCADE, verbose_name=_('Course'))
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name=_('User'))
     rating = models.SmallIntegerField(choices=RATINGS, default=5, verbose_name=_('rating'))
-    feedback = models.TextField(default='Без отзыва', verbose_name=_('feedback'))
+    feedback = models.TextField(default=_('Without a review'), verbose_name=_('feedback'))
 
     class Meta:
         verbose_name = _('feedback')

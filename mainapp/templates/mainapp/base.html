@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 
 <!doctype html>
 <html lang="ru">
@@ -22,7 +22,7 @@
 
     <title>
         {% block title %}
-            Welcome to Braniac!
+            {% translate 'Welcome to Braniac!' %}
         {% endblock title %}
     </title>
 </head>
@@ -34,13 +34,6 @@
 <div class="container-md">
 
     {% block content %}
-
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur
-        optio est esse? Veritatis laborum expedita
-        quibusdam numquam! Expedita amet nisi dolor similique autem, mollitia
-        ipsa et, natus vel explicabo
-        reprehenderit?
-
     {% endblock content %}
 
 </div>
@@ -56,29 +49,33 @@
             </p>
             <p>
             <ul class="list-unstyled">
-                <li><a href="{% url 'mainapp:main_page' %}">Домашняя</a></li>
-                <li><a href="{% url 'mainapp:news' %}">Новости</a></li>
-                <li><a href="{% url 'mainapp:login' %}">Войти</a></li>
+                <li><a href="{% url 'mainapp:main_page' %}">{% translate 'Home page' %}</a></li>
+                <li><a href="{% url 'mainapp:news' %}">{% translate 'News' %}</a></li>
+                {% if not user.is_authenticated %}
+                    <li><a href="{% url 'authapp:login' %}">{% translate 'Login' %}</a></li>
+                {% else %}
+                    <li><a href="{% url 'authapp:logout' %}">{% translate 'Logout' %}</a></li>
+                {% endif %}
             </ul>
             </p>
         </div>
         <div class="col-sm-6 col-md-3 text-center">
             <p>
-                <strong>Полезное</strong>
+                <strong>{% translate 'About' %}</strong>
             </p>
             <p>
             <ul class="list-unstyled">
-                <li><a href="#">Положения &amp; Условия</a></li>
-                <li><a href="#">Конфиденциальность &amp; Cookies</a></li>
-                <li><a href="#">Документация по API</a></li>
-                <li><a href="{% url 'mainapp:doc_site' %}">Документация по сайту</a>
+                <li><a href="#">{% translate 'Terms & Conditions' %}</a></li>
+                <li><a href="#">{% translate 'Privacy & Cookies' %}</a></li>
+                <li><a href="#">{% translate 'API Documentation' %}</a></li>
+                <li><a href="{% url 'mainapp:doc_site' %}">{% translate 'Site documentation' %}</a>
                 </li>
             </ul>
             </p>
         </div>
         <div class="col-sm-6 col-md-3 text-center">
             <p>
-                <strong>Мы в социальных сетях</strong>
+                <strong>{% translate 'Our social: ' %}</strong>
             </p>
             <p>
             <div class="row justify-content-around">
@@ -91,7 +88,7 @@
             </div>
             </p>
             <p>
-                <strong>Наше приложение</strong>
+                <strong>{% translate 'Our apps:' %}</strong>
             </p>
             <p>
             <div class="row justify-content-around">

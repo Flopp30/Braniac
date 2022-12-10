@@ -9,7 +9,6 @@ urlpatterns = [
     path("", views.MainPageView.as_view(), name="main_page"),
     path("contacts/", views.ContactsPageView.as_view(), name="contacts"),
     path("doc_site/", views.DocSitePageView.as_view(), name="doc_site"),
-    path("login/", views.LoginPageView.as_view(), name="login"),
 
     # Courses
     path("courses/", cache_page(300)(views.CoursesListView.as_view()), name="courses"),

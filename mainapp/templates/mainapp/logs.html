@@ -1,8 +1,9 @@
 {% extends 'mainapp/base.html' %}
+{% load i18n %}
 {% block content %}
     <div class="card">
-        <div class="card-header">Первая 1000 логов
-            <a href="{% url 'mainapp:log_download' %}" class="btn btn-outline-warning ">Скачать логи</a>
+        <div class="card-header">{% translate 'First 1000 logs' %}
+            <a href="{% url 'mainapp:log_download' %}" class="btn btn-outline-warning ">{% translate 'Download logs' %}</a>
         </div>
         <div class="card-body">
             {% for line in logs %}
