@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMi
 from django.http import JsonResponse, FileResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
 
+import mainapp.forms
 from mainapp import tasks
 from mainapp.models import News, Courses, CourseFeedback
 from mainapp import models as mainapp_models
@@ -72,25 +73,31 @@ class CoursesDetailView(TemplateView):
         context["lessons"] = mainapp_models.Lesson.objects.filter(course=context["course_object"])
         context["teachers"] = mainapp_models.CourseTeachers.objects.filter(course=context["course_object"])
 
+        if not self.request.user.is_anonymous:
+            if not CourseFeedback.objects.filter(course=context["course_object"], user=self.request.user).count():
+                context['feedback_form'] = mainapp.forms.CourseFeedBackForm(
+                    course=context['course_object'],
+                    user=self.request.user
+                )
         feedback_list_key = f'course_feedback_{context["course_object"].pk}'
         cached_feedback_list = cache.get(feedback_list_key)
 
-        if cached_feedback_list is None:
-            context["feedback_list"] = mainapp_models.CourseFeedback.objects.filter(course=context["course_object"],
-                                                                                    deleted=False)
+        if not cached_feedback_list:
+            context["feedback_list"] = (
+                CourseFeedback.objects.filter(course=context["course_object"])
+                .order_by("-created", "-rating")[:5]
+                .select_related()
+            )
             cache.set(feedback_list_key, context["feedback_list"], timeout=300)
+
+            # archive object for test -->
+            import pickle
+            with open(f'mainapp/fixtures/005_feedback_list_{pk}.bin', 'wb') as outf:
+                pickle.dump(context["feedback_list"], outf)
+            # <-- archive
+
         else:
             context["feedback_list"] = cached_feedback_list
-
-        if self.request.user.is_authenticated:
-            is_commented = mainapp_models.CourseFeedback.objects.filter(course=context["course_object"],
-                                                                        user=self.request.user,
-                                                                        deleted=False).first()
-            if not is_commented:
-                context['feedback_form'] = CourseFeedBackForm(
-                    course=context["course_object"],
-                    user=self.request.user,
-                )
 
         return context
 

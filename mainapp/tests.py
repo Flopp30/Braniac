@@ -1,8 +1,12 @@
+import django.core.mail
 from django.test import TestCase, Client
 from django.urls import reverse
 from http import HTTPStatus
 
+from selenium.webdriver.chrome.options import Options
+
 from authapp.models import User
+from mainapp import tasks
 from mainapp.models import News, Courses
 
 
@@ -280,3 +284,132 @@ class NewsTestCase(TestCase):
         self.assertEqual(result.status_code, HTTPStatus.FOUND)
 
         self.assertEqual(news_count + 1, News.objects.filter(deleted=True).count())
+
+
+import pickle
+from unittest import mock
+
+
+class TestCoursesWithMock(TestCase):
+    fixtures = (
+        "mainapp/fixtures/002_courses.json",
+        "mainapp/fixtures/003_lessons.json",
+        "mainapp/fixtures/004_teachers.json",
+    )
+
+    def test_page_open_detail(self):
+        course_obj = Courses.objects.get(pk=2)
+        url = reverse("mainapp:courses_detail", args=[course_obj.pk])
+        with open(f"mainapp/fixtures/005_feedback_list_{course_obj.pk}.bin", "rb") as f, mock.patch(
+                "django.core.cache.cache.get"
+        ) as mocked_cache:
+            mocked_cache.return_value = str(pickle.load(f))
+            result = self.client.get(url)
+            self.assertTrue(mocked_cache.called)
+            self.assertEqual(result.status_code, HTTPStatus.OK)
+
+
+class TestTaskMailSend(TestCase):
+
+    def setUp(self) -> None:
+        User.objects.create_user(username='django_user', password='mypassword')
+
+        self.client_auth = Client()
+        auth_url = reverse('authapp:login')
+
+        self.client_auth.post(
+            auth_url,
+            {'username': 'django_user', 'password': 'mypassword'},
+        )
+
+    def test_mail_send(self):
+        message_text = 'text'
+        user = User.objects.first()
+        tasks.send_feedback_to_email(message_from=user.email, message_body=message_text)
+        self.assertEqual(django.core.mail.outbox[0].body, message_text)
+
+
+from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from Braniac.settings import SELENIUM_DRIVER_PATH_CHROME
+
+
+class TestNewsSelenium(StaticLiveServerTestCase):
+    fixtures = (
+        'mainapp/fixtures/001_news.json',
+    )
+
+    def setUp(self) -> None:
+        User.objects.create_superuser(username='django', password='password')
+        super().setUp()
+
+        # headless mode for browser
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument("--disable-extensions")
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--no-sandbox")
+
+        self.selenium = WebDriver(
+            executable_path=SELENIUM_DRIVER_PATH_CHROME,
+            options=chrome_options,
+        )
+        self.selenium.implicitly_wait(10)
+        # login
+        self.selenium.get(f"{self.live_server_url}{reverse('authapp:login')}")
+        button_enter = WebDriverWait(self.selenium, 5).until(
+            EC.visibility_of_element_located(
+                (By.CSS_SELECTOR, '[type="submit"]')
+            )
+        )
+        self.selenium.find_element(by='id', value="id_username").send_keys("django")
+        self.selenium.find_element(by='id', value="id_password").send_keys("password")
+        button_enter.click()
+
+        # Wait for footer
+        WebDriverWait(self.selenium, 5).until(EC.visibility_of_element_located((By.CLASS_NAME, "mt-auto")))
+
+    def test_create_button_clickable(self):
+        path_list = f'{self.live_server_url}{reverse("mainapp:news")}'
+        path_add = reverse('mainapp:news_create')
+        self.selenium.get(path_list)
+        button_create = WebDriverWait(self.selenium, 5).until(
+            EC.visibility_of_element_located(
+                (By.CSS_SELECTOR, f'[href="{path_add}"]')
+            )
+        )
+        button_create.click()  # Test that button clickable
+        WebDriverWait(self.selenium, 1).until(
+            EC.visibility_of_element_located((By.ID, "id_title"))
+        )
+        # With no element - test will be failed
+        # WebDriverWait(self.selenium, 1).until(
+        #     EC.visibility_of_element_located((By.ID, "id_title111"))
+        # )
+
+    def test_pick_color(self):
+        path = f"{self.live_server_url}{reverse('mainapp:main_page')}"
+
+        self.selenium.get(path)
+        navbar_el = WebDriverWait(self.selenium, 5).until(
+            EC.visibility_of_element_located((By.CLASS_NAME, "navbar"))
+        )
+        try:
+            self.assertEqual(
+                navbar_el.value_of_css_property("background-color"),
+                "rgba(255, 255, 255, 1)",
+            )
+        except AssertionError:
+            with open(
+                    "var/screenshots/001_navbar_el_scrnsht.png", "wb"
+            ) as outf:
+                outf.write(navbar_el.screenshot_as_png)
+            raise
+
+    def tearDown(self):
+        # Close browser
+        self.selenium.quit()
+        super().tearDown()
