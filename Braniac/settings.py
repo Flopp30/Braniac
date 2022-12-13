@@ -124,10 +124,11 @@ STATIC_URL = "static/"
 
 if os.getenv('ENV_TYPE') != 'local':
     STATIC_ROOT = BASE_DIR / 'static'
+
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'geekshop',
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'lms',
             'USER': 'postgres',
         }
     }
