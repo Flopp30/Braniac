@@ -1,0 +1,72 @@
+
+ERROR: test_page_open_detail (mainapp.tests.TestCoursesWithMock)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/master/Documents/github/Braniac/mainapp/tests.py", line 303, in test_page_open_detail
+    result = self.client.get(str(url))
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/test/client.py", line 836, in get
+    response = super().get(path, data=data, secure=secure, **extra)
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/test/client.py", line 424, in get
+    return self.generic(
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/test/client.py", line 541, in generic
+    return self.request(**r)
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/test/client.py", line 810, in request
+    self.check_exception(response)
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/test/client.py", line 663, in check_exception
+    raise exc_value
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/template/response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/template/backends/django.py", line 62, in render
+    return self.template.render(context)
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/test/utils.py", line 111, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/template/loader_tags.py", line 157, in render
+    return compiled_parent._render(context)
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/test/utils.py", line 111, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/template/loader_tags.py", line 63, in render
+    result = block.nodelist.render(context)
+  File "/home/master/Documents/github/Braniac/env/lib/python3.10/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+TypeError: sequence item 23: expected str instance, QuerySet found
+
+
+class TestCoursesWithMock(TestCase):
+    fixtures = (
+        "mainapp/fixtures/002_courses.json",
+        "mainapp/fixtures/003_lessons.json",
+        "mainapp/fixtures/004_teachers.json",
+    )
+
+    def test_page_open_detail(self):
+        course_obj = Courses.objects.get(pk=2)
+        url = reverse("mainapp:courses_detail", args=[course_obj.pk])
+        with open(f"mainapp/fixtures/005_feedback_list_{course_obj.pk}.bin", "rb") as f, mock.patch(
+                "django.core.cache.cache.get"
+        ) as mocked_cache:
+            mocked_cache.return_value = str(pickle.load(f))  # <-------- пока я вот тут не обернул возврат в строку,
+            # падало исключение (лог выше.) Очень хочу комментарий по этому поводу, я правда не понимаю.
+            # Мне на выяснение этого потребовалось 4 часа -__-
+            result = self.client.get(url)
+            self.assertTrue(mocked_cache.called)
+            self.assertEqual(result.status_code, HTTPStatus.OK) 

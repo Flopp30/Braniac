@@ -7,6 +7,9 @@ import django
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Selenium driver path
+SELENIUM_DRIVER_PATH_CHROME = BASE_DIR / 'var' / 'selenium' / 'chromedriver'
+# print(SELENIUM_DRIVER_PATH_CHROME)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -34,7 +37,6 @@ INSTALLED_APPS = [
     "markdownify.apps.MarkdownifyConfig",
 
     'crispy_forms',
-    'debug_toolbar',
     'social_django',
 
     "mainapp",
@@ -45,13 +47,21 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+# Подключение debug toolbar
+if os.getenv('DEBUG_TOOLBAR', 'False') == 'True':
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware', )
+    INTERNAL_IPS = [
+        '127.0.0.1'
+    ]
 
 ROOT_URLCONF = "Braniac.urls"
 
@@ -132,10 +142,6 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-
-    INTERNAL_IPS = [
-        '127.0.0.1'
-    ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -239,3 +245,5 @@ LOGGING = {
 
 # Путь до файла интернационализации
 LOCALE_PATHS = (BASE_DIR / 'locale',)
+# python3 manage.py makemessages -l ru -i env   -- команда для создания файла интернационализации
+# python3 manage.py compilemessages -i env   -- команда для компиляции

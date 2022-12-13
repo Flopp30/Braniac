@@ -1,16 +1,17 @@
+from django.conf import settings
+from django.core.cache import cache
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DetailView, DeleteView, View
-
-from mainapp import tasks
-from mainapp.models import News, Courses, CourseFeedback
-from mainapp import models as mainapp_models
-from mainapp.forms import CourseFeedBackForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse, FileResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
-from django.conf import settings
-from django.core.cache import cache
+
+import mainapp.forms
+from mainapp import tasks
+from mainapp.models import News, Courses, CourseFeedback
+from mainapp import models as mainapp_models
+from mainapp.forms import CourseFeedBackForm
 
 
 class MainPageView(TemplateView):
@@ -20,7 +21,8 @@ class MainPageView(TemplateView):
 class NewsPageView(ListView):
     model = News
     template_name = "mainapp/news_list.html"
-    paginate_by = 2
+    paginate_by = 5
+    ordering = '-id'
 
     def get_queryset(self):
         if self.request.user.is_superuser:
@@ -52,9 +54,14 @@ class NewsDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = ('mainapp.delete_news',)
 
 
+class LoginPageView(TemplateView):
+    template_name = "authapp/login.html"
+
+
 class CoursesListView(ListView):
     model = Courses
     paginate_by = 5
+    ordering = ['-pk']
 
 
 class CoursesDetailView(TemplateView):
@@ -66,24 +73,31 @@ class CoursesDetailView(TemplateView):
         context["lessons"] = mainapp_models.Lesson.objects.filter(course=context["course_object"])
         context["teachers"] = mainapp_models.CourseTeachers.objects.filter(course=context["course_object"])
 
+        if not self.request.user.is_anonymous:
+            if not CourseFeedback.objects.filter(course=context["course_object"], user=self.request.user).count():
+                context['feedback_form'] = mainapp.forms.CourseFeedBackForm(
+                    course=context['course_object'],
+                    user=self.request.user
+                )
         feedback_list_key = f'course_feedback_{context["course_object"].pk}'
         cached_feedback_list = cache.get(feedback_list_key)
 
-        if cached_feedback_list is None:
-            context["feedback_list"] = mainapp_models.CourseFeedback.objects.filter(course=context["course_object"],
-                                                                                    deleted=False)
+        if not cached_feedback_list:
+            context["feedback_list"] = (
+                CourseFeedback.objects.filter(course=context["course_object"])
+                .order_by("-created", "-rating")[:5]
+                .select_related()
+            )
             cache.set(feedback_list_key, context["feedback_list"], timeout=300)
+
+            # archive object for test -->
+            import pickle
+            with open(f'mainapp/fixtures/005_feedback_list_{pk}.bin', 'wb') as outf:
+                pickle.dump(context["feedback_list"], outf)
+            # <-- archive
+
         else:
             context["feedback_list"] = cached_feedback_list
-
-        is_commented = mainapp_models.CourseFeedback.objects.filter(course=context["course_object"],
-                                                                    user=self.request.user,
-                                                                    deleted=False).first()
-        if self.request.user.is_authenticated and not is_commented:
-            context['feedback_form'] = CourseFeedBackForm(
-                course=context["course_object"],
-                user=self.request.user,
-            )
 
         return context
 
@@ -112,10 +126,6 @@ class ContactsPageView(TemplateView):
 
 class DocSitePageView(TemplateView):
     template_name = "mainapp/doc_site.html"
-
-
-class LoginPageView(TemplateView):
-    template_name = "authapp/login.html"
 
 
 class LogView(UserPassesTestMixin, TemplateView):

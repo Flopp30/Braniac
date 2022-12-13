@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 
 <!doctype html>
 <html lang="ru">
@@ -20,7 +21,7 @@
     <link rel="icon" type="image/x-icon" href={% static "/favicon.ico" %}>
 
 
-    <title>Welcome to Braniac!</title>
+    <title>{% translate 'Welcome to Braniac!' %}</title>
 </head>
 <body>
 
@@ -34,7 +35,7 @@
         <h2>{{ title }}</h2>
         {% block content %}
         {% endblock %}
-        <h4>Вход через социальные сети</h4>
+        <h4>{% translate 'Auth from social network' %}</h4>
         <p>
         <div class="btn-group btn-block" role="group">
             <a class="btn btn-primary"

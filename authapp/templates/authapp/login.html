@@ -1,15 +1,15 @@
 {% extends 'authapp/base.html' %}
+{% load i18n %}
 
 {% block content %}
     {% if form.errors %}
-        <p>Пользователя с таким логином и паролем не существует</p>
+        <p>{% translate 'Incorrect login or password' %}</p>
     {% endif %}
     {% if next %}
         {% if user.is_authenticated %}
-            <p>Your account doesn't have access to this page. To proceed,
-                please login with an account that has access.</p>
+            <p>{% translate "Your account doesn't have access to this page. To proceed, please login with an account that has access." %}</p>
         {% else %}
-            <p>Please login to see this page.</p>
+            <p>{%  translate "Please login to see this page." %}</p>
         {% endif %}
     {% endif %}
     <form method="post">
@@ -24,16 +24,16 @@
                    class="textinput textInput form-control" required="" id="id_password" placeholder="Password">
         </p>
         <p>
-            <button type="submit" class="btn btn-primary btn-block">Войти</button>
+            <button type="submit" class="btn btn-primary btn-block">{% translate 'login' %}</button>
         </p>
     </form>
     <p>
     <div class="row justify-content-between">
         <div class="col">
-            <a href="{% url 'authapp:register' %}"><small>Зарегистрироваться</small></a>
+            <a href="{% url 'authapp:register' %}"><small>{% translate "Sign up" %}</small></a>
         </div>
         <div class="col">
-            <a href="#"><small>Забыли пароль?</small></a>
+            <a href="#"><small>{% translate 'Forgot password?' %}</small></a>
         </div>
     </div>
     </p>

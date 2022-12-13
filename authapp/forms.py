@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.core.exceptions import ValidationError
-
+from django.utils.translation import gettext_lazy as _
 
 # from django import forms
 
@@ -37,7 +37,7 @@ class CustomUserCreationForm(UserCreationForm):
     def clean_age(self):
         age = self.cleaned_data.get('age')
         if age < 18:
-            raise ValidationError('Вы слишком молоды для регистрации. Приходите с родителями :)')
+            raise ValidationError(_("You're too young"))
         return age
 
 
@@ -56,5 +56,5 @@ class CustomUserChangeForm(UserChangeForm):
     def clean_age(self):
         age = self.cleaned_data.get('age')
         if age < 18:
-            raise ValidationError('Вы слишком молоды для регистрации. Приходите с родителями :)')
+            raise ValidationError(_("You're too young"))
         return age

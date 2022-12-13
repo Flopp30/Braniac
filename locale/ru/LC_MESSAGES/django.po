@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-08 20:50+0000\n"
+"POT-Creation-Date: 2022-12-10 10:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,149 +16,593 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
-"%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: authapp/forms.py:40 authapp/forms.py:59
+msgid "You're too young"
+msgstr "Вы слишком молоды"
+
 #: authapp/models.py:10
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: authapp/models.py:11
 msgid "age"
-msgstr ""
+msgstr "Возраст"
 
 #: authapp/models.py:12
 msgid "avatar"
-msgstr ""
+msgstr "Аватар"
 
 #: authapp/models.py:15
 msgid "user"
-msgstr ""
+msgstr "Пользователь"
 
 #: authapp/models.py:16
 msgid "users"
-msgstr ""
+msgstr "Пользователи"
+
+#: authapp/templates/authapp/base.html:24
+#: mainapp/templates/mainapp/base.html:25
+msgid "Welcome to Braniac!"
+msgstr "Добро пожаловать в Braniac!"
+
+#: authapp/templates/authapp/base.html:38
+msgid "Auth from social network"
+msgstr "Авторизация через социальные сети"
 
 #: authapp/templates/authapp/edit.html:10
 msgid "save"
+msgstr "Сохранить"
+
+#: authapp/templates/authapp/login.html:6
+msgid "Incorrect login or password"
+msgstr "Неверный логин или пароль"
+
+#: authapp/templates/authapp/login.html:10
+msgid ""
+"Your account doesn't have access to this page. To proceed, please login with "
+"an account that has access."
 msgstr ""
+"У вашей учетной записи нет доступа к этой странице. Чтобы продолжить, "
+"пожалуйста, войдите в систему с учетной записью, у которой есть доступ."
+
+#: authapp/templates/authapp/login.html:12
+msgid "Please login to see this page."
+msgstr "Пожалуйста, авторизируйтесь, чтобы увидеть эту страницу"
+
+#: authapp/templates/authapp/login.html:27
+#: authapp/templates/authapp/user_form.html:17
+msgid "login"
+msgstr "Войти"
+
+#: authapp/templates/authapp/login.html:33
+#: authapp/templates/authapp/user_form.html:10
+msgid "Sign up"
+msgstr "Зарегистрироваться"
+
+#: authapp/templates/authapp/login.html:36
+msgid "Forgot password?"
+msgstr "Забыли пароль?"
+
+#: authapp/templates/authapp/user_form.html:20
+msgid "forgot password?"
+msgstr "Забыли пароль?"
+
+#: authapp/views.py:12
+msgid "Authorization"
+msgstr "Вход пользователя"
 
 #: mainapp/models.py:15
 msgid "created"
-msgstr ""
+msgstr "Создан"
 
 #: mainapp/models.py:16
 msgid "updated"
-msgstr ""
+msgstr "Обновлен"
 
 #: mainapp/models.py:18
 msgid "deleted"
-msgstr ""
+msgstr "Удален"
 
 #: mainapp/models.py:29
 msgid "header"
-msgstr ""
+msgstr "Заголовок"
 
 #: mainapp/models.py:30
 msgid "short description"
-msgstr ""
+msgstr "Краткое описание"
 
 #: mainapp/models.py:32
 msgid "body"
-msgstr ""
+msgstr "Тело"
 
 #: mainapp/models.py:34 mainapp/models.py:49 mainapp/models.py:68
 msgid "As markdown"
-msgstr ""
+msgstr "As markdown"
 
 #: mainapp/models.py:41 mainapp/models.py:42
+#: mainapp/templates/mainapp/base.html:53
+#: mainapp/templates/mainapp/includes/inc_mainapp_menu.html:19
+#: mainapp/templates/mainapp/news_detail.html:4
 msgid "News"
-msgstr ""
+msgstr "Новости"
 
 #: mainapp/models.py:46 mainapp/models.py:66
 msgid "name"
-msgstr ""
+msgstr "Имя"
 
 #: mainapp/models.py:48
 msgid "Description"
-msgstr ""
+msgstr "Описание"
 
 #: mainapp/models.py:51
 msgid "price"
-msgstr ""
+msgstr "Цена"
 
 #: mainapp/models.py:52
 msgid "logo"
-msgstr ""
+msgstr "Лого"
 
 #: mainapp/models.py:58
 msgid "course"
-msgstr ""
+msgstr "Курс"
 
 #: mainapp/models.py:59
 msgid "courses"
-msgstr ""
+msgstr "Курсы"
 
 #: mainapp/models.py:63
 msgid "Course name"
-msgstr ""
+msgstr "Название курса"
 
 #: mainapp/models.py:64
 msgid "lesson number"
-msgstr ""
+msgstr "Номер урока"
 
 #: mainapp/models.py:67
 msgid "description"
-msgstr ""
+msgstr "Описание"
 
 #: mainapp/models.py:75
 msgid "lesson"
-msgstr ""
+msgstr "Урок"
 
 #: mainapp/models.py:76
 msgid "lessons"
-msgstr ""
+msgstr "Уроки"
 
 #: mainapp/models.py:82
 msgid "first name"
-msgstr ""
+msgstr "Имя"
 
 #: mainapp/models.py:83
 msgid "last name"
-msgstr ""
+msgstr "Фамилия"
 
 #: mainapp/models.py:85
 msgid "date birth"
-msgstr ""
+msgstr "Дата рождения"
 
 #: mainapp/models.py:86
 msgid "Deleted"
-msgstr ""
+msgstr "Удален"
 
 #: mainapp/models.py:96
 msgid "teacher"
-msgstr ""
+msgstr "Преподаватель"
 
 #: mainapp/models.py:97
 msgid "teachers"
-msgstr ""
+msgstr "Преподаватели"
 
 #: mainapp/models.py:109
 msgid "Course"
-msgstr ""
+msgstr "Курсы"
 
 #: mainapp/models.py:110
 msgid "User"
-msgstr ""
+msgstr "Пользователь"
 
 #: mainapp/models.py:111
 msgid "rating"
-msgstr ""
+msgstr "Рейтинг"
+
+#: mainapp/models.py:112
+msgid "Without a review"
+msgstr "Без отзыва"
 
 #: mainapp/models.py:112 mainapp/models.py:115
 msgid "feedback"
-msgstr ""
+msgstr "Отзыв"
 
 #: mainapp/models.py:116
 msgid "feedbacks"
+msgstr "Отзывы"
+
+#: mainapp/templates/mainapp/base.html:52
+msgid "Home page"
+msgstr "Домашняя"
+
+#: mainapp/templates/mainapp/base.html:55
+#: mainapp/templates/mainapp/includes/inc_mainapp_menu.html:54
+msgid "Login"
+msgstr "Войти"
+
+#: mainapp/templates/mainapp/base.html:57
+#: mainapp/templates/mainapp/includes/inc_mainapp_menu.html:48
+msgid "Logout"
+msgstr "Выйти"
+
+#: mainapp/templates/mainapp/base.html:64
+msgid "About"
+msgstr "Полезное"
+
+#: mainapp/templates/mainapp/base.html:68
+msgid "Terms & Conditions"
+msgstr "Положения & Условия"
+
+#: mainapp/templates/mainapp/base.html:69
+msgid "Privacy & Cookies"
+msgstr "Конфиденциальность & Сookies"
+
+#: mainapp/templates/mainapp/base.html:70
+msgid "API Documentation"
+msgstr "Документация по API"
+
+#: mainapp/templates/mainapp/base.html:71
+#: mainapp/templates/mainapp/doc_site.html:9
+msgid "Site documentation"
+msgstr "Документация по сайту"
+
+#: mainapp/templates/mainapp/base.html:78
+msgid "Our social: "
+msgstr "Наши социальные сети:"
+
+#: mainapp/templates/mainapp/base.html:91
+msgid "Our apps:"
+msgstr "Наши приложения:"
+
+#: mainapp/templates/mainapp/contacts.html:8
+msgid "Our contacts"
+msgstr "Наши контакты"
+
+#: mainapp/templates/mainapp/contacts.html:9
+msgid "Be sure to contact us! Your comfort is our concern."
+msgstr "Обязательно свяжитесь с нами! Ваш комфорт - наша забота."
+
+#: mainapp/templates/mainapp/contacts.html:16
+msgid "Text body"
+msgstr "Текст сообщения"
+
+#: mainapp/templates/mainapp/contacts.html:17
+#: mainapp/templates/mainapp/courses_detail.html:123
+msgid "Send"
+msgstr "Отправить"
+
+#: mainapp/templates/mainapp/contacts.html:43
+#, fuzzy
+#| msgid "Saint-Petersburg"
+msgid "Saint-Petersburg"
+msgstr "Санкт-Петербург"
+
+#: mainapp/templates/mainapp/contacts.html:46
+#: mainapp/templates/mainapp/contacts.html:80
+#: mainapp/templates/mainapp/contacts.html:112
+msgid "Phone"
+msgstr "Телефон"
+
+#: mainapp/templates/mainapp/contacts.html:54
+#: mainapp/templates/mainapp/contacts.html:88
+#: mainapp/templates/mainapp/contacts.html:120
+msgid "Address"
+msgstr "Адрес"
+
+#: mainapp/templates/mainapp/contacts.html:55
+msgid "territory of the Peter and Paul Fortress, 3ZH"
+msgstr "территория Петропавловская крепость, 3Ж"
+
+#: mainapp/templates/mainapp/contacts.html:77
+msgid "Kazan"
+msgstr "Казань"
+
+#: mainapp/templates/mainapp/contacts.html:89
+msgid "territory Kremlin, 11, Kazan, Republic of Tatarstan, Russia"
+msgstr "территория Кремль, 11, Казань, Республика Татарстан, Россия"
+
+#: mainapp/templates/mainapp/contacts.html:109
+msgid "Moscow"
+msgstr "Москва"
+
+#: mainapp/templates/mainapp/contacts.html:121
+msgid "7 Red Square, Moscow, Russia"
+msgstr "Красная площадь, 7, Москва, Россия"
+
+#: mainapp/templates/mainapp/courses_detail.html:24
+#, fuzzy
+#| msgid "teachers"
+msgid "Teachers"
+msgstr "Преподаватели"
+
+#: mainapp/templates/mainapp/courses_detail.html:39
+#: mainapp/templates/mainapp/courses_detail.html:50
+#, fuzzy
+#| msgid "price"
+msgid "Price"
+msgstr "Цена"
+
+#: mainapp/templates/mainapp/courses_detail.html:43
+#: mainapp/templates/mainapp/courses_detail.html:55
+msgid "Buy"
+msgstr "Купить"
+
+#: mainapp/templates/mainapp/courses_detail.html:97
+#, fuzzy
+#| msgid "feedbacks"
+msgid "Feedbacks"
+msgstr "Отзывы"
+
+#: mainapp/templates/mainapp/courses_detail.html:106
+msgid "No feedback yet. Be first!"
+msgstr "Ещё нет отзывов, станьте первым!"
+
+#: mainapp/templates/mainapp/courses_detail.html:114
+#, fuzzy
+#| msgid "feedback"
+msgid "Add feedback"
+msgstr "Отзыв"
+
+#: mainapp/templates/mainapp/courses_detail.html:115
+msgid "You haven't left a review for this yet course"
+msgstr "Вы еще не оставили отзыв на этот курс"
+
+#: mainapp/templates/mainapp/courses_list.html:5
+#: mainapp/templates/mainapp/includes/inc_mainapp_menu.html:23
+msgid "Courses"
+msgstr "Курсы"
+
+#: mainapp/templates/mainapp/doc_site.html:13
+msgid "CSS"
+msgstr "CSS стили"
+
+#: mainapp/templates/mainapp/doc_site.html:23
+msgid "Icons"
+msgstr "Значки"
+
+#: mainapp/templates/mainapp/doc_site.html:29
+msgid "Сharts"
+msgstr "Графики"
+
+#: mainapp/templates/mainapp/doc_site.html:34
+msgid "Graphics"
+msgstr "Графика"
+
+#: mainapp/templates/mainapp/doc_site.html:37
+#, fuzzy
+#| msgid "Logout"
+msgid "Logo"
+msgstr "Логотип"
+
+#: mainapp/templates/mainapp/doc_site.html:40
+msgid "Photo"
+msgstr "Фотографии"
+
+#: mainapp/templates/mainapp/doc_site.html:43
+msgid ""
+"All images are distributed under a free license. For the reviews page, the "
+"photos must have an aspect ratio multiple of 2.912 (for example, 1920x659)"
 msgstr ""
+"Все изображения распространяются под бесплатной лицензией. Для страницы "
+"обзоров фотографии должны быть с соотношением сторон кратным 2.912 "
+"(например, 1920x659)"
+
+#: mainapp/templates/mainapp/includes/inc_mainapp_menu.html:27
+msgid "Contacts"
+msgstr "Контакты"
+
+#: mainapp/templates/mainapp/includes/inc_mainapp_menu.html:34
+msgid "Your profile"
+msgstr "Ваш профиль"
+
+#: mainapp/templates/mainapp/includes/inc_mainapp_menu.html:37
+msgid "Edit profile"
+msgstr "Редактировать профиль"
+
+#: mainapp/templates/mainapp/includes/inc_mainapp_menu.html:38
+msgid "My courses"
+msgstr "Мои курсы"
+
+#: mainapp/templates/mainapp/includes/inc_mainapp_menu.html:41
+msgid "Moderation"
+msgstr "Модерация"
+
+#: mainapp/templates/mainapp/includes/inc_mainapp_menu.html:44
+msgid "Administration"
+msgstr "Административный раздел"
+
+#: mainapp/templates/mainapp/includes/inc_mainapp_menu.html:45
+msgid "Logs"
+msgstr "Логи"
+
+#: mainapp/templates/mainapp/index.html:16
+msgid "Be productive"
+msgstr "Будь продуктивным"
+
+#: mainapp/templates/mainapp/index.html:17
+msgid "Study only the current trends of modern IT"
+msgstr "Изучай только актуальные тренды современного IT"
+
+#: mainapp/templates/mainapp/index.html:23
+msgid "Study anywhere"
+msgstr "Учись где угодно"
+
+#: mainapp/templates/mainapp/index.html:24
+msgid ""
+"Park, library or at home under a warm blanket - choose the time and place of "
+"study yourself"
+msgstr ""
+"Парк, библиотека или дома под тёплым пледом - выбирай время и место учёбы сам"
+
+#: mainapp/templates/mainapp/index.html:30
+msgid "Brainiac is US"
+msgstr "Браниак - это МЫ"
+
+#: mainapp/templates/mainapp/index.html:31
+msgid "Join our IT party - there are already more than 5000 Brainiacs"
+msgstr "Вливайся в нашу IT-тусовку - нас уже более 5000 брайниаков"
+
+#: mainapp/templates/mainapp/index.html:37
+msgid "Previous"
+msgstr "Предыдущая"
+
+#: mainapp/templates/mainapp/index.html:41
+msgid "Next"
+msgstr "Следующая"
+
+#: mainapp/templates/mainapp/index.html:46
+msgid "Greetings, traveler!"
+msgstr "Приветствую, путник!"
+
+#: mainapp/templates/mainapp/index.html:48
+msgid ""
+"On this portal we have gathered a community of people united by one goal - "
+"to gain knowledge! In the modernthe world it is already difficult to imagine "
+"a person not communicating with a computer. The ubiquitous penetration of "
+"the Internet has given an opportunity to unite people and make knowledge "
+"accessible like never before. You have a unique the opportunity to gain "
+"relevant knowledge using modern technologies. Don't miss your chance and go "
+"to the 'Courses' tab, sign up for courses and become a sought-after "
+"specialist."
+msgstr ""
+"На данном портале мы собрали сообщество людей объединённых одной целью - "
+"получать знания! В современном мире уже сложно представить человека не "
+"общающегося с компьютером. Повсеместное проникновение интернета дало "
+"возможность объединить людей и сделать знания доступными как никогда ранее. "
+"У тебя есть уникальная возможность получить актуальные знания используя "
+"современные технологии. Не упусти свой шанс и переходи на вкладку 'Курсы', "
+"записывайся на курсы и становись востребованным специалистом."
+
+#: mainapp/templates/mainapp/index.html:52
+msgid "Feedback from community members"
+msgstr "Отзывы участников сообщества"
+
+#: mainapp/templates/mainapp/index.html:60
+msgid "Valeriya"
+msgstr "Валерия"
+
+#: mainapp/templates/mainapp/index.html:61
+msgid "I learned Python and get 300kk per second! Thanks to My Brother!"
+msgstr "Выучила Python и получаю 300кк в секунду! Спасибо Братику!"
+
+#: mainapp/templates/mainapp/index.html:66
+msgid "Anton"
+msgstr "Антон"
+
+#: mainapp/templates/mainapp/index.html:67
+msgid "I'm not stupid in excel anymore - only the database is only hardcore!"
+msgstr "Больше не туплю в excel - только БД только хардкор!"
+
+#: mainapp/templates/mainapp/index.html:72
+msgid "Leonard"
+msgstr "Леонард"
+
+#: mainapp/templates/mainapp/index.html:73
+msgid "How to patch IDE under FreeBSD?!"
+msgstr "Как пропатчить IDE под FreeBSD?!"
+
+#: mainapp/templates/mainapp/index.html:85
+#: mainapp/templates/mainapp/index.html:86
+msgid "Hundreds of ready-made courses from the best authors"
+msgstr "Сотни готовых курсов от лучших авторов"
+
+#: mainapp/templates/mainapp/index.html:102
+msgid "Monetize knowledge"
+msgstr "Монетизируй знания!"
+
+#: mainapp/templates/mainapp/index.html:103
+msgid ""
+"An expert in your field - come to us! Favourable conditions for you and "
+"users from all over the world on our platforms"
+msgstr ""
+"Эксперт в свой области - давай к нам! Выгодные условия для тебя и "
+"пользователи со всего мира на нашей платформы"
+
+#: mainapp/templates/mainapp/index.html:113
+msgid "Together we are a force"
+msgstr "Вместе мы сила"
+
+#: mainapp/templates/mainapp/index.html:114
+msgid ""
+"Projects of any complexity become easier if you are in the company of like-"
+"minded people. Join us!"
+msgstr ""
+"Проекты любой сложности становятся легче, если ты в компании "
+"единомышленников. Присоединяйся!"
+
+#: mainapp/templates/mainapp/logs.html:5
+msgid "First 1000 logs"
+msgstr "Первые 1000 логов"
+
+#: mainapp/templates/mainapp/logs.html:6
+msgid "Download logs"
+msgstr "Скачать логи"
+
+#: mainapp/templates/mainapp/news_confirm_delete.html:6
+#, fuzzy
+#| msgid "deleted"
+msgid "Mark as deleted?"
+msgstr "Удален"
+
+#: mainapp/templates/mainapp/news_confirm_delete.html:8
+msgid "Make a note to delete the news"
+msgstr "Пометить новость удаленной"
+
+#: mainapp/templates/mainapp/news_confirm_delete.html:9
+msgid "from"
+msgstr "От"
+
+#: mainapp/templates/mainapp/news_confirm_delete.html:18
+msgid "Accept"
+msgstr "Принять"
+
+#: mainapp/templates/mainapp/news_confirm_delete.html:24
+msgid "Decline"
+msgstr "Отменить"
+
+#: mainapp/templates/mainapp/news_detail.html:16
+msgid "Back"
+msgstr "Назад"
+
+#: mainapp/templates/mainapp/news_form.html:11
+msgid "Post"
+msgstr "Опубликовать"
+
+#: mainapp/templates/mainapp/news_list.html:11
+msgid "Current page"
+msgstr "Текущая страница"
+
+#: mainapp/templates/mainapp/news_list.html:28
+msgid "more detailed"
+msgstr "Подробнее"
+
+#: mainapp/templates/mainapp/news_list.html:52
+msgid "Filters:"
+msgstr "Фильтры:"
+
+#: mainapp/templates/mainapp/news_list.html:58
+msgid "Date from .. "
+msgstr "Дата от .."
+
+#: mainapp/templates/mainapp/news_list.html:64
+msgid "Date to .."
+msgstr "Дата до .."
+
+#: mainapp/templates/mainapp/news_list.html:69
+msgid "Filter"
+msgstr "Фильтровать"
+
+#: mainapp/templates/mainapp/news_list.html:76
+msgid "Add news"
+msgstr "Добавить новость"

@@ -1,4 +1,5 @@
 {% extends 'mainapp/base.html' %}
+{% load i18n %}
 
 {% block title %}
     Новости
@@ -7,7 +8,7 @@
     {% if page_num %}
         <div class="card my-2">
             <div class="card-body">
-                <p class="card-text">Текущая страница: {{ page_num }}</p>
+                <p class="card-text">{% translate 'Current page' %}: {{ page_num }}</p>
             </div>
         </div>
     {% endif %}
@@ -24,7 +25,7 @@
                         <div class="row">
                             <div class="col">
                                 <a href="{% url 'mainapp:news_detail' pk=item.pk %}"
-                                   class="card-link">Подробнее</a>
+                                   class="card-link">{% translate 'more detailed' %}</a>
                             </div>
                             {% if perms.mainapp.change_news %}
                                 <div class="col-1 text-center">
@@ -48,56 +49,35 @@
         <div class="col-lg-4">
             <div class="card my-2 sticky-top">
                 <div class="card-header">
-                    Фильтры
+                    {% translate 'Filters:' %}
                 </div>
                 <div class="card-body">
                     <form action="">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Дата от...</span>
+                                <span class="input-group-text" id="basic-addon1">{% translate 'Date from .. ' %}</span>
                             </div>
                             <input type="date" class="form-control" name="dateFrom">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Дата до...</span>
+                                <span class="input-group-text" id="basic-addon1">{% translate 'Date to ..' %}</span>
                             </div>
                             <input type="date" class="form-control" name="dateTo">
                         </div>
                         <button type="submit"
-                                class="btn btn-primary btn-block">Фильтровать
+                                class="btn btn-primary btn-block">{% translate 'Filter' %}
                         </button>
                     </form>
                 </div>
             </div>
             {% if perms.mainapp.add_news %}
                 <a class="btn btn-primary btn-block" role="button"
-                   href="{% url 'mainapp:news_create' %}">Добавить новость</a>
+                   href="{% url 'mainapp:news_create' %}">{% translate 'Add news' %}</a>
             {% endif %}
         </div>
     </div>
-    <div class="row justify-content-center align-items-center mt-3 mb-n3">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                {% if page_obj.has_previous %}
-                    <li class="page-item "><a class="page-link"
-                                              href="?page=1">Первая</a></li>
-                    <li class="page-item"><a class="page-link"
-                                             href="?page={{ page_obj.previous_page_number }}"><</a></li>
-                {% endif %}
-                {% for i in page_obj.paginator.page_range %}
-                    <li class="page-item {% if i == page_obj.number %}active{% endif %}">
-                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-                    </li>
-                {% endfor %}
-                {% if page_obj.has_next %}
-                    <li class="page-item"><a class="page-link"
-                                             href="?page={{ page_obj.next_page_number }}">></a></li>
-                    <li class="page-item"><a class="page-link"
-                                             href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-    </div>
+
+    {% include 'mainapp/includes/inc_paginator.html' %}
+
 {% endblock content %}

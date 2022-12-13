@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
-
+from django.utils.translation import gettext_lazy as _
 from authapp.forms import CustomUserCreationForm, CustomUserChangeForm
 from authapp.models import User
 from django.contrib.auth.views import LoginView, LogoutView
@@ -9,7 +9,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 class CustomLoginView(LoginView):
     template_name = 'authapp/login.html'
     extra_context = {
-        'title': 'Вход пользователя'
+        'title': _('Authorization')
     }
 
 
