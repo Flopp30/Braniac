@@ -15,7 +15,7 @@
 - PostgreSQL
 
 ### Общая схема компонентов сервера
-![server components](for_github/server_components.png)
+![server components](server_components.png)
 
 ### Запуск проекта
 1) Сделать fork репозитория и склонировать его на локальную машину
