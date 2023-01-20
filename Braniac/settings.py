@@ -8,7 +8,7 @@ import django
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Selenium driver path
-SELENIUM_DRIVER_PATH_CHROME = BASE_DIR / 'var' / 'selenium' / 'chromedriver'
+SELENIUM_DRIVER_PATH_CHROME = BASE_DIR / 'img_for_github' / 'selenium' / 'chromedriver'
 # print(SELENIUM_DRIVER_PATH_CHROME)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
