@@ -18,15 +18,14 @@
 ![server components](server_components.png)
 
 ### Запуск проекта
-1) Сделать fork репозитория и склонировать его на локальную машину
-```git clone *ssh from your repo*```
+1) Сделать fork репозитория и склонировать его на локальную машину```git clone *ssh from your repo*```
 2) Создать виртуальное окружение и запустить его
-
-```python3 -m venv env```
-```source env/bin/activate```
+```
+python3 -m venv env
+source env/bin/activate
+```
 3) Установить зависимости ```pip install -r requirements.txt```
 4) Создать файл ```.env``` в корне проекта и заполнить его по примеру ```.env.sample```. 
-Поля электронной почты - опциональны. 
    - ```ENV_TYPE``` -- тип окружения. ```local``` - если локально
    - ```DEBUG``` -- режим отладки Django framework. ```True```/```False```
    - ```DEBUG``` -- режим отладки Django framework. ```True```/```False```
