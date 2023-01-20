@@ -221,7 +221,6 @@ LOG_FILE = BASE_DIR / 'log' / 'main_log.log'
 
 # Настройка логгирования
 
-# TODO: Почитать про sentry
 LOGGING = {
     'version': 1,
     'disable_exciting_loggers': False,  # Отключить сторонние логгеры
