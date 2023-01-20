@@ -404,7 +404,7 @@ class TestNewsSelenium(StaticLiveServerTestCase):
             )
         except AssertionError:
             with open(
-                    "img_for_github/screenshots/001_navbar_el_scrnsht.png", "wb"
+                    "for_github/screenshots/001_navbar_el_scrnsht.png", "wb"
             ) as outf:
                 outf.write(navbar_el.screenshot_as_png)
             raise

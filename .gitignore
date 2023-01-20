@@ -18,7 +18,7 @@ lib/
 lib64/
 parts/
 sdist/
-img_for_github/
+for_github/
 wheels/
 pip-wheel-metadata/
 share/python-wheels/
